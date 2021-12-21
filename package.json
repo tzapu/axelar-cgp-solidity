@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/axelarnetwork/ethereum-bridge#readme",
   "dependencies": {
+    "csv-parse": "^5.0.3",
     "ethereum-waffle": "^3.4.0",
     "lodash": "^4.17.21"
   },
