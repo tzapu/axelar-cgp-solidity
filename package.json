@@ -25,8 +25,12 @@
   },
   "homepage": "https://github.com/axelarnetwork/ethereum-bridge#readme",
   "dependencies": {
+    "dotenv": "^16.0.0",
+    "ethereum-public-key-to-address": "^0.0.5",
     "ethereum-waffle": "^3.4.0",
-    "lodash": "^4.17.21"
+    "install": "^0.13.0",
+    "lodash": "^4.17.21",
+    "npm": "^8.5.5"
   },
   "devDependencies": {
     "chai": "^4.3.4",
