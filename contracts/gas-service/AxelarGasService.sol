@@ -13,16 +13,19 @@ contract AxelarGasService is Upgradable, IAxelarGasService {
     using SafeTokenTransferFrom for IERC20;
     using SafeNativeTransfer for address payable;
 
-    address public immutable gasCollector;
+    address[] public gasCollectors;
 
-    constructor(address gasCollector_) {
-        gasCollector = gasCollector_;
+    constructor(address[] memory gasCollectors_) {
+        gasCollectors = gasCollectors_;
     }
 
-    modifier onlyCollector() {
-        if (msg.sender != gasCollector) revert NotCollector();
-
-        _;
+    modifier onlyCollectors() {
+		for (uint256 i = 0; i < gasCollectors.length; i++) {
+			if (msg.sender == gasCollectors[i]) {
+				_;
+			}
+		}
+		revert NotCollector();
     }
 
     // This is called on the source chain before calling the gateway to execute a remote contract.
@@ -214,7 +217,7 @@ contract AxelarGasService is Upgradable, IAxelarGasService {
         address payable receiver,
         address[] calldata tokens,
         uint256[] calldata amounts
-    ) external onlyCollector {
+    ) external onlyCollectors {
         if (receiver == address(0)) revert InvalidAddress();
 
         uint256 tokensLength = tokens.length;
@@ -237,7 +240,7 @@ contract AxelarGasService is Upgradable, IAxelarGasService {
         address payable receiver,
         address token,
         uint256 amount
-    ) external onlyCollector {
+    ) external onlyCollectors {
         if (receiver == address(0)) revert InvalidAddress();
 
         if (token == address(0)) {
@@ -253,7 +256,7 @@ contract AxelarGasService is Upgradable, IAxelarGasService {
 		uint256 logIndex,
         address token,
         uint256 amount
-	) external onlyCollector {
+	) external onlyCollectors {
         if (receiver == address(0)) revert InvalidAddress();
 
         if (token == address(0)) {
