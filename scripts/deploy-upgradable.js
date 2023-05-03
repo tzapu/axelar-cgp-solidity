@@ -113,11 +113,12 @@ async function deploy(env, chains, wallet, artifactPath, contractName, deployTo)
             console.log(`${chain.name} | Upgraded.`);
         } else {
             const key = env.includes('devnet') ? `${contractName}-${env}` : contractName;
+            const salt = chain[contractName]['salt'] === undefined || chain[contractName]['salt'] === '' ? key : chain[contractName]['salt'];
             const setupArgs = getInitArgs(contractName, chain);
             console.log(`Proxy setup args: ${setupArgs}`);
-            console.log(`Proxy deployment salt: '${key}'`);
+            console.log(`Proxy deployment salt: '${salt}'`);
 
-            const proxyAddress = await predictContractConstant(chain.constAddressDeployer, wallet.connect(provider), proxyJson, key);
+            const proxyAddress = await predictContractConstant(chain.constAddressDeployer, wallet.connect(provider), proxyJson, salt);
             console.log(`Proxy will be deployed to ${proxyAddress}. Does this match any existing deployments?`);
             const anwser = readlineSync.question(`Proceed with deployment on ${chain.name}? (y/n) `);
             if (anwser !== 'y') return;
@@ -130,11 +131,11 @@ async function deploy(env, chains, wallet, artifactPath, contractName, deployTo)
                 args,
                 [],
                 setupArgs,
-                key,
+                salt,
                 get('gasOptions.gasLimit', chain),
             );
 
-            chain[contractName]['salt'] = key;
+            chain[contractName]['salt'] = salt;
             chain[contractName]['address'] = contract.address;
             chain[contractName]['implementation'] = await contract.implementation();
             chain[contractName]['deployer'] = wallet.address;
