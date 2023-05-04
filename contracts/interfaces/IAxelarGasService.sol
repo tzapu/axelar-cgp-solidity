@@ -203,4 +203,6 @@ interface IAxelarGasService is IUpgradable {
         address token,
         uint256 amount
     ) external;
+
+    function gasCollector() external returns(address);
 }

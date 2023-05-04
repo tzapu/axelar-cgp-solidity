@@ -1,6 +1,6 @@
 'use strict';
 require('dotenv').config();
-const { toArray, get, getOr, isEmpty } = require('lodash/fp');
+const { get, getOr, isEmpty } = require('lodash/fp');
 const {
     Contract,
     Wallet,
@@ -18,9 +18,9 @@ function getProxy(wallet, proxyAddress) {
 
 async function getImplementationArgs(contractName, chain, wallet) {
     if (contractName === 'AxelarGasService') {
-        const collectors = toArray(get('AxelarGasService.collectors', chain));
-        if (collectors.length == 0) throw new Error(`Missing AxelarGasService.collectors in the chain info.`);
-        return [collectors];
+        const collector = get('AxelarGasService.collector', chain);
+        if (!isAddress(collector)) throw new Error(`Missing AxelarGasService.collector in the chain info.`);
+        return [collector];
     }
 
     if (contractName === 'AxelarDepositService') {
