@@ -15,6 +15,8 @@ contract AxelarGasService is Upgradable, IAxelarGasService {
 
     address public immutable gasCollector;
 
+    mapping(address => bool) public refunders;
+
     constructor(address gasCollector_) {
         gasCollector = gasCollector_;
     }
@@ -23,6 +25,11 @@ contract AxelarGasService is Upgradable, IAxelarGasService {
         if (msg.sender != gasCollector) revert NotCollector();
 
         _;
+    }
+
+    modifier onlyRefunders() {
+        if (!refunders[msg.sender] || msg.sender != gasCollector) revert NotRefunder();
+	    _;
     }
 
     // This is called on the source chain before calling the gateway to execute a remote contract.
@@ -237,7 +244,7 @@ contract AxelarGasService is Upgradable, IAxelarGasService {
         address payable receiver,
         address token,
         uint256 amount
-    ) external onlyCollector {
+    ) external onlyRefunders {
         if (receiver == address(0)) revert InvalidAddress();
 
         if (token == address(0)) {
@@ -253,7 +260,7 @@ contract AxelarGasService is Upgradable, IAxelarGasService {
 		uint256 logIndex,
         address token,
         uint256 amount
-	) external onlyCollector {
+	) external onlyRefunders {
         if (receiver == address(0)) revert InvalidAddress();
 
         if (token == address(0)) {
@@ -267,5 +274,17 @@ contract AxelarGasService is Upgradable, IAxelarGasService {
 
     function contractId() external pure returns (bytes32) {
         return keccak256('axelar-gas-service');
+    }
+
+    function addRefunder(address refunder) external onlyCollector {
+        if (refunders[refunder]) return;
+        refunders[refunder] = true;
+        emit RefunderAdded(refunder);
+    }
+
+    function removeRefunder(address refunder) external onlyCollector {
+        if (!refunders[refunder]) return;
+        delete refunders[refunder];
+        emit RefunderRemoved(refunder);
     }
 }

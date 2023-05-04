@@ -10,6 +10,7 @@ interface IAxelarGasService is IUpgradable {
     error InvalidAddress();
     error NotCollector();
     error InvalidAmounts();
+    error NotRefunder();
 
     event GasPaidForContractCall(
         address indexed sourceAddress,
@@ -87,6 +88,10 @@ interface IAxelarGasService is IUpgradable {
     event GasRefunded(bytes32 indexed txHash, uint256 indexed logIndex, address receiver, address gasToken, uint256 gasFeeAmount);
 
     event NativeGasRefunded(bytes32 indexed txHash, uint256 indexed logIndex, address receiver, uint256 gasFeeAmount);
+
+    event RefunderAdded(address indexed refunder);
+
+    event RefunderRemoved(address indexed refunder);
 
     // This is called on the source chain before calling the gateway to execute a remote contract.
     function payGasForContractCall(
@@ -202,6 +207,14 @@ interface IAxelarGasService is IUpgradable {
         uint256 logIndex,
         address token,
         uint256 amount
+    ) external;
+
+    function addRefunder(
+        address refunder
+    ) external;
+
+    function removeRefunder(
+        address refunder
     ) external;
 
     function gasCollector() external returns(address);
