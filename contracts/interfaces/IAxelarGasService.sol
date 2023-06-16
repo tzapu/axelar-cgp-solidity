@@ -199,14 +199,6 @@ interface IAxelarGasService is IUpgradable {
         uint256 amount
     ) external;
 
-    function refundGMP(
-        address payable receiver,
-        bytes32 txHash,
-        uint256 logIndex,
-        address token,
-        uint256 amount
-    ) external;
-
     function addRefunder(
         address refunder
     ) external;

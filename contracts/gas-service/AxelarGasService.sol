@@ -277,24 +277,6 @@ contract AxelarGasService is Upgradable, IAxelarGasService {
         emit Refunded(txHash, logIndex, receiver, token, amount);
     }
 
-	function refundGMP(
-		address payable receiver,
-		bytes32 txHash,
-		uint256 logIndex,
-        address token,
-        uint256 amount
-	) external onlyRefunders {
-        if (receiver == address(0)) revert InvalidAddress();
-
-        if (token == address(0)) {
-            receiver.safeNativeTransfer(amount);
-			emit NativeGasRefunded(txHash, logIndex, receiver, amount);
-        } else {
-            IERC20(token).safeTransfer(receiver, amount);
-			emit GasRefunded(txHash, logIndex, receiver, token, amount);
-        }
-	}
-
     function contractId() external pure returns (bytes32) {
         return keccak256('axelar-gas-service');
     }
