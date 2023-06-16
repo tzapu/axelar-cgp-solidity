@@ -240,11 +240,32 @@ contract AxelarGasService is Upgradable, IAxelarGasService {
         }
     }
 
+    // deprecated
     function refund(
         address payable receiver,
         address token,
         uint256 amount
     ) external onlyRefunders {
+        _refund(bytes32(0), 0, receiver, token, amount);
+    }
+
+    function refund(
+        bytes32 txHash,
+        uint256 logIndex,
+        address payable receiver,
+        address token,
+        uint256 amount
+    ) external onlyRefunders {
+        _refund(txHash, logIndex, receiver, token, amount);
+    }
+
+    function _refund(
+        bytes32 txHash,
+        uint256 logIndex,
+        address payable receiver,
+        address token,
+        uint256 amount
+    ) private {
         if (receiver == address(0)) revert InvalidAddress();
 
         if (token == address(0)) {
@@ -252,6 +273,8 @@ contract AxelarGasService is Upgradable, IAxelarGasService {
         } else {
             IERC20(token).safeTransfer(receiver, amount);
         }
+
+        emit Refunded(txHash, logIndex, receiver, token, amount);
     }
 
 	function refundGMP(

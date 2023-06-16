@@ -85,9 +85,7 @@ interface IAxelarGasService is IUpgradable {
 
     event NativeExpressGasAdded(bytes32 indexed txHash, uint256 indexed logIndex, uint256 gasFeeAmount, address refundAddress);
 
-    event GasRefunded(bytes32 indexed txHash, uint256 indexed logIndex, address receiver, address gasToken, uint256 gasFeeAmount);
-
-    event NativeGasRefunded(bytes32 indexed txHash, uint256 indexed logIndex, address receiver, uint256 gasFeeAmount);
+    event Refunded(bytes32 indexed txHash, uint256 indexed logIndex, address payable receiver, address token, uint256 amount);
 
     event RefunderAdded(address indexed refunder);
 
