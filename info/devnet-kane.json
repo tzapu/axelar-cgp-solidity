@@ -33,14 +33,10 @@
     "gasReceiver": "0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6",
     "AxelarGasService": {
       "salt": "AxelarGasService-devnet-kane-1",
-      "address": "0x708F1e01532D6E894B1790a3E1d4d4aBD9BB36Ae",
-      "implementation": "0x0d305579D89F1327ACC8B7b4ED70d5B1911e84c4",
+      "address": "",
+      "implementation": "",
       "deployer": "0x3520F93578b6A1fF6396840F80bA6219E9D79c47",
-      "collectors": [
-        "0x3520F93578b6A1fF6396840F80bA6219E9D79c47",
-        "0xE30Bc1e8A0ED5B4A4657882fF4e8E651Dc514813",
-        "0x58B856e219841F7A07Cb79D76d41048Dec54E2b8"
-      ]
+      "collector": "0x3520F93578b6A1fF6396840F80bA6219E9D79c47"
     },
     "AxelarDepositService": {
       "salt": "AxelarDepositService-devnet-kane-2",
@@ -65,14 +61,10 @@
     "gasReceiver": "0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6",
     "AxelarGasService": {
       "salt": "AxelarGasService-devnet-kane-1",
-      "address": "0x708F1e01532D6E894B1790a3E1d4d4aBD9BB36Ae",
-      "implementation": "0xe4A7e2063a971FEe2665B52ff8C81FAD4bAEEb5e",
+      "address": "",
+      "implementation": "",
       "deployer": "0x3520F93578b6A1fF6396840F80bA6219E9D79c47",
-      "collectors": [
-        "0x3520F93578b6A1fF6396840F80bA6219E9D79c47",
-        "0xE30Bc1e8A0ED5B4A4657882fF4e8E651Dc514813",
-        "0x58B856e219841F7A07Cb79D76d41048Dec54E2b8"
-      ]
+      "collector": "0x3520F93578b6A1fF6396840F80bA6219E9D79c47"
     },
     "AxelarDepositService": {
       "salt": "AxelarDepositService-devnet-kane-1",
