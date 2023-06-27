@@ -19,20 +19,16 @@ contract AxelarGatewayProxy is EternalStorage {
 
         if (gatewayImplementation.code.length == 0) revert InvalidImplementation();
 
-        // solhint-disable-next-line avoid-low-level-calls
         (bool success, ) = gatewayImplementation.delegatecall(abi.encodeWithSelector(IAxelarGateway.setup.selector, params));
 
         if (!success) revert SetupFailed();
     }
 
-    // solhint-disable-next-line no-empty-blocks
     function setup(bytes calldata params) external {}
 
-    // solhint-disable-next-line no-complex-fallback
     fallback() external payable {
         address implementation = getAddress(KEY_IMPLEMENTATION);
 
-        // solhint-disable-next-line no-inline-assembly
         assembly {
             calldatacopy(0, 0, calldatasize())
 

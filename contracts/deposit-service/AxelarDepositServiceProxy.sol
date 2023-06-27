@@ -10,6 +10,5 @@ contract AxelarDepositServiceProxy is Proxy {
     }
 
     // @dev This function is for receiving refunds when refundAddress was 0x0
-    // solhint-disable-next-line no-empty-blocks
     receive() external payable override {}
 }
